@@ -165,6 +165,9 @@ const Home = () => {
   useEffect(() => {
     const ctx = canvasRef.current.getContext("2d");
 
+    canvasRef.current.width = window.innerWidth;
+    canvasRef.current.height = window.innerHeight;
+
     const nodes = NodesData.map(
       (info) => new Node(ctx, info, canvasRef.current, getRandomColor())
     );
@@ -174,7 +177,6 @@ const Home = () => {
 
       nodes.forEach((node) => node.onResize());
     };
-    resize();
     window.addEventListener("resize", resize);
 
     const myPic = new Image();
