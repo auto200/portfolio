@@ -214,6 +214,22 @@ const Home = () => {
         ctx.clip();
         ctx.drawImage(myPic, myPicX, myPicY, MY_PIC_WIDTH, MY_PIC_HEIGHT);
         ctx.restore();
+
+        //text under image
+        ctx.font = "bold 28px Arial";
+        ctx.strokeStyle = "#fff";
+        ctx.lineWidth = 3;
+        ctx.strokeText(
+          "It's a feature",
+          myPicX - 15,
+          myPicY + MY_PIC_HEIGHT + 30
+        );
+        ctx.fillStyle = "#2465D3";
+        ctx.fillText(
+          "It's a feature",
+          myPicX - 15,
+          myPicY + MY_PIC_HEIGHT + 30
+        );
       }
 
       requestAnimationFrame(update);
@@ -224,7 +240,12 @@ const Home = () => {
     return () => window.removeEventListener("resize", resize);
   });
 
-  return <Canvas ref={canvasRef}>canvas element not supported</Canvas>;
+  //letter spacing works only on chrome desktop
+  return (
+    <Canvas ref={canvasRef} letterSpacing="5px">
+      canvas element not supported
+    </Canvas>
+  );
 };
 
 export default Home;
