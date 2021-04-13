@@ -1,3 +1,4 @@
+//https://github.com/tsoding/zzzwe/blob/master/index.js
 export default class V2 {
   x: number;
   y: number;

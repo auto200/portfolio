@@ -21,14 +21,20 @@ const NodesData: NodeData[] = [
     links: [],
   },
   {
+    id: "HTML",
+    src: "/nodes/html.png",
+    size: "md",
+    links: [],
+  },
+  {
     id: "CSS",
     src: "/nodes/css.jpg",
-    size: "sm",
+    size: "md",
     links: [],
   },
   {
     id: "Styled-Components",
-    src: "/nodes/styled-components.png",
+    src: "/nodes/styled-components.jpg",
     size: "md",
     links: [],
   },
@@ -47,7 +53,7 @@ const NodesData: NodeData[] = [
   {
     id: "Chakra UI",
     src: "/nodes/chakra.png",
-    size: "sm",
+    size: "md",
     links: [],
   },
   {
@@ -102,6 +108,18 @@ const NodesData: NodeData[] = [
     id: "MySQL",
     src: "/nodes/mysql.png",
     size: "sm",
+    links: [],
+  },
+  {
+    id: "REST",
+    src: "/nodes/rest.png",
+    size: "md",
+    links: [],
+  },
+  {
+    id: "TypeScript",
+    src: "/nodes/typescript.png",
+    size: "md",
     links: [],
   },
 ];
