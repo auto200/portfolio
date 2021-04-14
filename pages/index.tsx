@@ -25,16 +25,7 @@ const Home = () => {
     canvasRef.current.width = window.innerWidth;
     canvasRef.current.height = window.innerHeight;
 
-    const MY_PIC_WIDTH = 200;
-    const MY_PIC_HEIGHT = 250;
-    const myPic = new MyPic(
-      ctx,
-      canvasRef.current,
-      "/ava2.jpg",
-      MY_PIC_WIDTH,
-      MY_PIC_HEIGHT,
-      12
-    );
+    const myPic = new MyPic(ctx, canvasRef.current, "/ava2.jpg", 200, 250, 12);
 
     const nodes = nodesData.map(
       (info) => new Node(ctx, canvasRef.current, info, getRandomColor())
@@ -54,7 +45,6 @@ const Home = () => {
       mousePos.x = clientX;
       mousePos.y = clientY;
     };
-
     window.addEventListener("mousemove", onMouseMove);
 
     const updateCanvas = () => {
