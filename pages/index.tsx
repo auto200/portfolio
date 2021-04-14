@@ -2,7 +2,7 @@ import { chakra, useTheme } from "@chakra-ui/react";
 import { useEffect, useRef } from "react";
 import { clamp, random, sample } from "lodash";
 import V2 from "../utils/V2";
-import NodesData, { NodeData, NodeSize } from "../utils/nodesData";
+import nodesData, { NodeData, NodeSize } from "../utils/nodesData";
 import { roundedImage } from "../utils";
 const Canvas = chakra("canvas");
 
@@ -171,13 +171,21 @@ const Home = () => {
     const nodes = nodesData.map(
       (info) => new Node(ctx, info, canvasRef.current, getRandomColor())
     );
-    const resize = () => {
+    const onResize = () => {
       canvasRef.current.width = window.innerWidth;
       canvasRef.current.height = window.innerHeight;
 
       nodes.forEach((node) => node.onResize());
     };
-    window.addEventListener("resize", resize);
+
+    const mousePos = { x: 0, y: 0 };
+    const onMouseMove = ({ clientX, clientY }) => {
+      mousePos.x = clientX;
+      mousePos.y = clientY;
+    };
+
+    window.addEventListener("resize", onResize);
+    window.addEventListener("mousemove", onMouseMove);
 
     const myPic = new Image();
     let myPicLoaded = false;
@@ -186,33 +194,32 @@ const Home = () => {
     });
     myPic.src = "/ava2.jpg";
 
-    const MY_PIC_WIDTH = 200;
-    const MY_PIC_HEIGHT = 250;
-
-    const update = () => {
+    const updateCanvas = () => {
       const { width, height } = canvasRef.current;
-      const myPicX = canvasRef.current.width / 2 - myPic.width / 2;
-      const myPicY = canvasRef.current.height / 2 - myPic.height / 2;
 
       ctx.clearRect(0, 0, width, height);
+
+      const MY_PIC_WIDTH = 200;
+      const MY_PIC_HEIGHT = 250;
+      const MY_PIC_X = width / 2 - myPic.width / 2;
+      const MY_PIC_Y = height / 2 - myPic.height / 2;
 
       nodes.forEach((node) => {
         node.update();
         node.draw();
         node.edges();
-        node.myPicCollision(myPicX, myPicY, MY_PIC_WIDTH, MY_PIC_HEIGHT);
+        node.myPicCollision(MY_PIC_X, MY_PIC_Y, MY_PIC_WIDTH, MY_PIC_HEIGHT);
         // node.nodesCollision(nodes);
       });
 
       if (myPicLoaded) {
         ctx.save();
-        roundedImage(ctx, myPicX, myPicY, MY_PIC_WIDTH, MY_PIC_HEIGHT, 10);
+        roundedImage(ctx, MY_PIC_X, MY_PIC_Y, MY_PIC_WIDTH, MY_PIC_HEIGHT, 10);
         ctx.strokeStyle = "#2465D3";
         ctx.lineWidth = 6;
-
         ctx.stroke();
         ctx.clip();
-        ctx.drawImage(myPic, myPicX, myPicY, MY_PIC_WIDTH, MY_PIC_HEIGHT);
+        ctx.drawImage(myPic, MY_PIC_X, MY_PIC_Y, MY_PIC_WIDTH, MY_PIC_HEIGHT);
         ctx.restore();
 
         //text under image
@@ -221,23 +228,49 @@ const Home = () => {
         ctx.lineWidth = 3;
         ctx.strokeText(
           "It's a feature",
-          myPicX - 15,
-          myPicY + MY_PIC_HEIGHT + 30
+          MY_PIC_X - 15,
+          MY_PIC_Y + MY_PIC_HEIGHT + 30
         );
         ctx.fillStyle = "#2465D3";
         ctx.fillText(
           "It's a feature",
-          myPicX - 15,
-          myPicY + MY_PIC_HEIGHT + 30
+          MY_PIC_X - 15,
+          MY_PIC_Y + MY_PIC_HEIGHT + 30
         );
+
+        //mouse over image
+        const closestPointOnRect = new V2(
+          clamp(mousePos.x, MY_PIC_X, MY_PIC_X + MY_PIC_WIDTH),
+          clamp(mousePos.y, MY_PIC_Y, MY_PIC_Y + MY_PIC_HEIGHT)
+        );
+        const mouseOverImage =
+          new V2(mousePos.x, mousePos.y).dist(closestPointOnRect) <= 0;
+        if (mouseOverImage) {
+          ctx.globalCompositeOperation = "destination-over";
+          nodes.forEach((node) => {
+            ctx.beginPath();
+            ctx.moveTo(
+              MY_PIC_X + MY_PIC_WIDTH / 2,
+              MY_PIC_Y + MY_PIC_HEIGHT / 2
+            );
+            ctx.lineTo(node.pos.x, node.pos.y);
+            ctx.lineWidth = Node.getSizeValue(node.info.size) / 10;
+            ctx.strokeStyle = node.borderColor;
+            ctx.stroke();
+          });
+          ctx.globalCompositeOperation = "source-over";
+        }
       }
 
-      requestAnimationFrame(update);
+      requestAnimationFrame(updateCanvas);
     };
 
-    update();
+    updateCanvas();
 
-    return () => window.removeEventListener("resize", resize);
+    return () => {
+      window.removeEventListener("resize", onResize);
+      window.removeEventListener("mousemove", onMouseMove);
+    };
   });
 
   //letter spacing works only on chrome desktop
