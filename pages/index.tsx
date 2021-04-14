@@ -6,8 +6,11 @@ import V2 from "../utils/V2";
 import nodesData from "../utils/nodesData";
 import MyPic from "../classes/MyPic";
 import { GoMarkGithub } from "react-icons/go";
+import { motion } from "framer-motion";
 
 const Canvas = chakra("canvas");
+
+const GithubLink = motion(chakra.a);
 
 const Home = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -99,7 +102,7 @@ const Home = () => {
       <Canvas ref={canvasRef} letterSpacing="5px">
         canvas element not supported
       </Canvas>
-      <chakra.a
+      <GithubLink
         target="_blank"
         href="https://github.com/auto200"
         pos="absolute"
@@ -108,9 +111,12 @@ const Home = () => {
         m="2"
         zIndex="10"
         fontSize="3xl"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 2 }}
       >
         <GoMarkGithub />
-      </chakra.a>
+      </GithubLink>
     </>
   );
 };
