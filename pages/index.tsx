@@ -5,6 +5,7 @@ import Node from "../classes/Node";
 import V2 from "../utils/V2";
 import nodesData from "../utils/nodesData";
 import MyPic from "../classes/MyPic";
+import { GoMarkGithub } from "react-icons/go";
 
 const Canvas = chakra("canvas");
 
@@ -104,9 +105,23 @@ const Home = () => {
 
   //letter spacing works only on chrome desktop
   return (
-    <Canvas ref={canvasRef} letterSpacing="5px">
-      canvas element not supported
-    </Canvas>
+    <>
+      <Canvas ref={canvasRef} letterSpacing="5px">
+        canvas element not supported
+      </Canvas>
+      <chakra.a
+        target="_blank"
+        href="https://github.com/auto200"
+        pos="absolute"
+        top="0"
+        left="0"
+        m="2"
+        zIndex="10"
+        fontSize="3xl"
+      >
+        <GoMarkGithub />
+      </chakra.a>
+    </>
   );
 };
 
