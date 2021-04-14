@@ -168,7 +168,7 @@ const Home = () => {
     canvasRef.current.width = window.innerWidth;
     canvasRef.current.height = window.innerHeight;
 
-    const nodes = NodesData.map(
+    const nodes = nodesData.map(
       (info) => new Node(ctx, info, canvasRef.current, getRandomColor())
     );
     const resize = () => {

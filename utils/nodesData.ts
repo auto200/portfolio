@@ -7,7 +7,7 @@ export interface NodeData {
   links: string[];
 }
 
-const NodesData: NodeData[] = [
+const nodesData: NodeData[] = [
   {
     id: "React",
     src: "/nodes/react.png",
@@ -124,4 +124,4 @@ const NodesData: NodeData[] = [
   },
 ];
 
-export default NodesData;
+export default nodesData;
