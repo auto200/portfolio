@@ -85,24 +85,6 @@ class Node {
       this.vel.y *= -1;
     }
   }
-  //looks bad rn
-  // nodesCollision(nodes: Node[]) {
-  //   for (const node of nodes) {
-  //     if (node.info.id === this.info.id) continue;
-
-  //     const dx = this.pos.x - node.pos.x;
-  //     const dy = this.pos.y - node.pos.y;
-  //     const distance = Math.sqrt(dx * dx + dy * dy);
-
-  //     if (distance < this.size / 2 + node.size / 2) {
-  //       this.vel.x *= -1;
-  //       this.vel.y *= -1;
-  //       node.vel.x *= -1;
-  //       node.vel.y *= -1;
-  //       break;
-  //     }
-  //   }
-  // }
 
   myPicCollision(x, y, w, h) {
     const closestPointOnRect = new V2(
@@ -209,7 +191,6 @@ const Home = () => {
         node.draw();
         node.edges();
         node.myPicCollision(MY_PIC_X, MY_PIC_Y, MY_PIC_WIDTH, MY_PIC_HEIGHT);
-        // node.nodesCollision(nodes);
       });
 
       if (myPicLoaded) {
