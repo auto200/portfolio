@@ -1,4 +1,4 @@
-import { clamp, random } from "lodash";
+import { random } from "lodash";
 import { NodeData, NodeSize } from "../utils/nodesData";
 import V2 from "../utils/V2";
 
@@ -77,28 +77,25 @@ export default class Node {
       this.vel.y *= -1;
     }
   }
-
-  myPicCollision(x: number, y: number, width: number, height: number) {
-    const closestPointOnRect = new V2(
-      clamp(this.pos.x, x, x + width),
-      clamp(this.pos.y, y, y + height)
-    );
-    const collision = this.pos.dist(closestPointOnRect) - this.radius <= 0;
-    //yep, definitely a feature
-    if (collision) {
-      if (
-        this.pos.x + this.radius >= x &&
-        this.pos.x + this.radius <= x + width
-      ) {
-        this.vel.x *= -1;
-        return;
-      }
-      if (
-        this.pos.y + this.radius >= y &&
-        this.pos.y + this.radius <= y + height
-      ) {
-        this.vel.y *= -1;
-      }
+  //yep, definitely a feature
+  bounceOffRect(
+    rectX: number,
+    rectY: number,
+    rectWidth: number,
+    rectHeight: number
+  ) {
+    if (
+      this.pos.x + this.radius >= rectX &&
+      this.pos.x + this.radius <= rectX + rectWidth
+    ) {
+      this.vel.x *= -1;
+      return;
+    }
+    if (
+      this.pos.y + this.radius >= rectY &&
+      this.pos.y + this.radius <= rectY + rectHeight
+    ) {
+      this.vel.y *= -1;
     }
   }
 

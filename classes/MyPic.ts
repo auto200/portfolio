@@ -1,3 +1,6 @@
+import { clamp } from "lodash";
+import V2 from "../utils/V2";
+
 export default class MyPic {
   ctx: CanvasRenderingContext2D;
   canvas: HTMLCanvasElement;
@@ -102,5 +105,13 @@ export default class MyPic {
     );
     this.ctx.fillStyle = "#2465D3";
     this.ctx.fillText("It's a feature", this.x - 15, this.y + this.height + 30);
+  }
+
+  dist(x: number, y: number) {
+    const closestPointOnRect = new V2(
+      clamp(x, this.x, this.x + this.width),
+      clamp(y, this.y, this.y + this.height)
+    );
+    return new V2(x, y).dist(closestPointOnRect);
   }
 }

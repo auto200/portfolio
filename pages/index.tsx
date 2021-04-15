@@ -1,8 +1,7 @@
 import { chakra, useTheme } from "@chakra-ui/react";
 import { useEffect, useRef } from "react";
-import { clamp, sample } from "lodash";
+import { sample } from "lodash";
 import Node from "../classes/Node";
-import V2 from "../utils/V2";
 import nodesData from "../utils/nodesData";
 import MyPic from "../classes/MyPic";
 import { GoMarkGithub } from "react-icons/go";
@@ -56,12 +55,7 @@ const Home = () => {
 
       //connect myPic with nodes on myPic hover
       {
-        const closestPointOnRect = new V2(
-          clamp(mousePos.x, myPic.x, myPic.x + myPic.width),
-          clamp(mousePos.y, myPic.y, myPic.y + myPic.height)
-        );
-        const mouseOverImage =
-          new V2(mousePos.x, mousePos.y).dist(closestPointOnRect) <= 0;
+        const mouseOverImage = myPic.dist(mousePos.x, mousePos.y) <= 0;
         if (mouseOverImage) {
           const myPicCenter = {
             x: myPic.x + myPic.width / 2,
@@ -82,7 +76,11 @@ const Home = () => {
         node.update();
         node.draw();
         node.edges();
-        node.myPicCollision(myPic.x, myPic.y, myPic.width, myPic.height);
+        const nodeCollidingWithMyPic =
+          myPic.dist(node.pos.x, node.pos.y) - node.radius <= 0;
+        if (nodeCollidingWithMyPic) {
+          node.bounceOffRect(myPic.x, myPic.y, myPic.width, myPic.height);
+        }
       });
       myPic.draw();
 
