@@ -1,11 +1,11 @@
 import { chakra, useTheme } from "@chakra-ui/react";
-import { useEffect, useRef } from "react";
+import { motion } from "framer-motion";
 import { sample } from "lodash";
+import { useEffect, useRef } from "react";
+import { GoMarkGithub } from "react-icons/go";
+import MyPic from "../classes/MyPic";
 import Node from "../classes/Node";
 import nodesData from "../utils/nodesData";
-import MyPic from "../classes/MyPic";
-import { GoMarkGithub } from "react-icons/go";
-import { motion } from "framer-motion";
 
 const Canvas = chakra("canvas");
 
@@ -27,7 +27,14 @@ const Home = () => {
     canvasRef.current.width = window.innerWidth;
     canvasRef.current.height = window.innerHeight;
 
-    const myPic = new MyPic(ctx, canvasRef.current, "/ava2.jpg", 200, 250, 12);
+    const myPic = new MyPic(
+      ctx,
+      canvasRef.current,
+      "/profPic.jpg",
+      200,
+      250,
+      12
+    );
 
     const nodes = nodesData.map(
       (info) => new Node(ctx, canvasRef.current, info, getRandomColor())
