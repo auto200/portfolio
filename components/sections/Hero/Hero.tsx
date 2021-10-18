@@ -8,12 +8,9 @@ import MyPic from "./classes/MyPic";
 import Node from "./classes/Node";
 
 const Canvas = chakra("canvas");
-
 const GithubLink = motion(chakra.a);
 
-interface HeroProps {}
-
-export const Hero: React.FC<HeroProps> = ({}) => {
+const Hero: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const theme = useTheme();
   const getRandomColor = () =>
@@ -64,8 +61,8 @@ export const Hero: React.FC<HeroProps> = ({}) => {
 
       //connect myPic with nodes on myPic hover
       {
-        const mouseOverImage = myPic.dist(mousePos.x, mousePos.y) <= 0;
-        if (mouseOverImage) {
+        const isMouseOverImage = myPic.dist(mousePos.x, mousePos.y) <= 0;
+        if (isMouseOverImage) {
           const myPicCenter = {
             x: myPic.x + myPic.width / 2,
             y: myPic.y + myPic.height / 2,
@@ -85,9 +82,9 @@ export const Hero: React.FC<HeroProps> = ({}) => {
         node.update();
         node.draw();
         node.edges();
-        const nodeCollidingWithMyPic =
+        const isNodeCollidingWithMyPic =
           myPic.dist(node.pos.x, node.pos.y) - node.radius <= 0;
-        if (nodeCollidingWithMyPic) {
+        if (isNodeCollidingWithMyPic) {
           node.bounceOffRect(myPic.x, myPic.y, myPic.width, myPic.height);
         }
       });
@@ -101,7 +98,7 @@ export const Hero: React.FC<HeroProps> = ({}) => {
       window.removeEventListener("resize", onResize);
       window.removeEventListener("mousemove", onMouseMove);
     };
-  });
+  }, []);
 
   //letter spacing works only on chrome desktop
   return (
