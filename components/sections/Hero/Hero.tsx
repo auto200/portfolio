@@ -103,9 +103,7 @@ const Hero: React.FC = () => {
   //letter spacing works only on chrome desktop
   return (
     <>
-      <Canvas ref={canvasRef} letterSpacing="5px">
-        canvas element not supported
-      </Canvas>
+      <Canvas ref={canvasRef}>canvas element not supported</Canvas>
       <GithubLink
         target="_blank"
         href="https://github.com/auto200"
