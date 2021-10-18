@@ -1,6 +1,6 @@
+import { NodeData, NodeSize } from "@utils/nodesData";
+import V2 from "@utils/V2";
 import { random } from "lodash";
-import { NodeData, NodeSize } from "../utils/nodesData";
-import V2 from "../utils/V2";
 
 export default class Node {
   ctx: CanvasRenderingContext2D;

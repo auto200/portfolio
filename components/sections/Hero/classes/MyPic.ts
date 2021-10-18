@@ -1,5 +1,5 @@
+import V2 from "@utils/V2";
 import { clamp } from "lodash";
-import V2 from "../utils/V2";
 
 export default class MyPic {
   ctx: CanvasRenderingContext2D;
