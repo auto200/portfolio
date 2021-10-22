@@ -25,7 +25,7 @@ export const projectsData: IProject[] = [
   {
     name: "emoteJAM",
     description:
-      "React clone of an application that provides filters to animate image uploaded by the user (Client side only)",
+      "React clone of an application that provides filters to animate image uploaded by the user (Client side only!)",
     imageSrc: "project-thumbnails/emoteJAM.jpg",
     tags: ["ReactJS"],
     links: {
