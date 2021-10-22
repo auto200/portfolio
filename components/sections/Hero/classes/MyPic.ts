@@ -1,5 +1,5 @@
+import V2 from "@utils/V2";
 import { clamp } from "lodash";
-import V2 from "../utils/V2";
 
 export default class MyPic {
   ctx: CanvasRenderingContext2D;
@@ -98,13 +98,13 @@ export default class MyPic {
     this.ctx.font = "bold 28px Arial";
     this.ctx.strokeStyle = "#fff";
     this.ctx.lineWidth = 3;
-    this.ctx.strokeText(
-      "It's a feature",
-      this.x - 15,
-      this.y + this.height + 30
-    );
+    const text = "It's a feature"
+      //letterspacing
+      .split("")
+      .join(`${String.fromCharCode(8202)}${String.fromCharCode(8202)}`);
+    this.ctx.strokeText(text, this.x - 15, this.y + this.height + 30);
     this.ctx.fillStyle = "#2465D3";
-    this.ctx.fillText("It's a feature", this.x - 15, this.y + this.height + 30);
+    this.ctx.fillText(text, this.x - 15, this.y + this.height + 30);
   }
 
   dist(x: number, y: number) {

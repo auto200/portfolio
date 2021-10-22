@@ -1,6 +1,6 @@
+import { NodeData, NodeSize } from "@utils/nodesData";
+import V2 from "@utils/V2";
 import { random } from "lodash";
-import { NodeData, NodeSize } from "../utils/nodesData";
-import V2 from "../utils/V2";
 
 export default class Node {
   ctx: CanvasRenderingContext2D;
@@ -8,7 +8,9 @@ export default class Node {
   info: NodeData;
   borderColor: string;
   pos: V2;
+  private baseSize: number;
   size: number;
+  private baseVel: V2;
   vel: V2;
   image: HTMLImageElement;
   radius: number;
@@ -22,18 +24,19 @@ export default class Node {
     this.canvas = canvas;
     this.info = info;
     this.borderColor = borderColor;
-    this.size = Node.getSizeValue(info.size);
-    this.radius = this.size / 2;
-    this.initPos();
+    this.baseSize = this.getSizeValue(info.size);
+    this.updateSize(this.baseSize);
 
-    const speed = Node.getSpeedBySize(this.info.size);
-    this.vel = new V2(speed, speed);
+    const speed = this.getRandomIshSpeedBySize(this.info.size);
+    this.baseVel = new V2(speed, speed);
+    this.vel = this.baseVel;
 
     const img = new Image();
     img.addEventListener("load", () => {
       this.image = img;
     });
     img.src = this.info.src;
+    this.initPos();
   }
 
   initPos() {
@@ -42,7 +45,9 @@ export default class Node {
       random(this.size, this.canvas.width - this.size),
       random(this.size, this.canvas.height - this.size)
     );
+    this.onResize();
   }
+
   update() {
     this.pos = this.pos.add(this.vel);
   }
@@ -99,13 +104,32 @@ export default class Node {
     }
   }
 
+  updateSize(size: number) {
+    this.size = size;
+    this.radius = size / 2;
+  }
+
   onResize() {
     if (this.pos.x >= this.canvas.width || this.pos.y >= this.canvas.height) {
       this.initPos();
     }
+
+    const SMALL_SCREEN_SCALE_RATIO = 0.7;
+    const SMALL_SCREEN_SPEED_RATIO = 0.5;
+
+    const smallScreenSize = this.baseSize * SMALL_SCREEN_SCALE_RATIO;
+    const smallScreenVel = this.baseVel.scale(SMALL_SCREEN_SPEED_RATIO);
+
+    if (this.canvas.width < 600) {
+      this.updateSize(smallScreenSize);
+      this.vel = smallScreenVel;
+    } else {
+      this.updateSize(this.baseSize);
+      this.vel = this.baseVel;
+    }
   }
 
-  static getSizeValue(size: NodeSize) {
+  private getSizeValue(size: NodeSize) {
     const sizes: { [size in NodeSize]: number } = {
       lg: 80,
       md: 55,
@@ -113,12 +137,13 @@ export default class Node {
     };
     return sizes[size];
   }
-  static getSpeedBySize(size: NodeSize) {
-    const sizes: { [size in NodeSize]: number } = {
-      lg: 0.8,
-      md: 1.3,
-      sm: 2,
+
+  private getRandomIshSpeedBySize(size: NodeSize) {
+    const sizes: { [size in NodeSize]: [number, number] } = {
+      lg: [0.6, 0.8],
+      md: [1.1, 1.3],
+      sm: [1.8, 2],
     };
-    return sizes[size];
+    return random(...sizes[size]);
   }
 }
