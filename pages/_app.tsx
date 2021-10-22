@@ -7,8 +7,8 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <title>Michosz to ja</title>
-        <meta property="og:title" content="Michosz to ja" key="title" />
+        <title>Michał Warać</title>
+        <meta property="og:title" content="Michał Warać" key="title" />
       </Head>
       <ChakraProvider theme={theme}>
         <Component {...pageProps} />

@@ -53,6 +53,7 @@ const Hero: React.FC = () => {
       mousePos.x = clientX;
       mousePos.y = clientY;
     };
+    //this is bugged, w/e this whole  thing will be gone
     window.addEventListener("mousemove", onMouseMove);
 
     const updateCanvas = () => {
@@ -103,7 +104,15 @@ const Hero: React.FC = () => {
   //letter spacing works only on chrome desktop
   return (
     <>
-      <Canvas ref={canvasRef}>canvas element not supported</Canvas>
+      <Canvas
+        ref={canvasRef}
+        w="100%"
+        h="100vh"
+        borderBottom="1px"
+        borderColor="whiteAlpha.500"
+      >
+        canvas element not supported
+      </Canvas>
       <GithubLink
         target="_blank"
         href="https://github.com/auto200"

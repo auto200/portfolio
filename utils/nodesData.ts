@@ -69,12 +69,6 @@ const nodesData: NodeData[] = [
     links: [],
   },
   {
-    id: "C++",
-    src: "/nodes/cpp.png",
-    size: "sm",
-    links: [],
-  },
-  {
     id: "Next.js",
     src: "/nodes/next.jpg",
     size: "md",
