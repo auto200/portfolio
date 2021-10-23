@@ -47,7 +47,7 @@ export const projectsData: IProject[] = [
   {
     name: "Nerdy Neck",
     description:
-      "My current project is a posture monitoring app, it uses pretrained model to dectect position of body parts",
+      "My current project is a posture monitoring app, it uses machine learning model to dectect position of body parts",
     imageSrc: "project-thumbnails/nerdy-neck.png",
     tags: ["ReactJS", "Tensorflow"],
     links: {

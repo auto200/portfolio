@@ -41,7 +41,7 @@ export const Project: React.FC<ProjectProps> = ({
           transform="rotate(-45deg)"
           p="2"
           textAlign="center"
-          bgColor="whiteAlpha.500"
+          bgColor="green.600"
           color="snow"
         >
           Ongoing
@@ -53,7 +53,7 @@ export const Project: React.FC<ProjectProps> = ({
             key={tag}
             mx={1}
             size={tags.length < 3 ? "md" : "sm"}
-            colorScheme="blue"
+            colorScheme="green"
           >
             {tag}
           </Tag>

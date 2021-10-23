@@ -25,7 +25,14 @@ const Projects: React.FC<ProjectsProps> = ({}) => {
         ))}
       </Grid>
       <Center>
-        <Text as={Link} href="#start" fontSize="3xl" mt="10" mb="5">
+        <Text
+          as={Link}
+          href="#start"
+          fontSize="3xl"
+          color="green.300"
+          mt="10"
+          mb="5"
+        >
           Let&apos;s talk 💬
         </Text>
       </Center>
