@@ -27,8 +27,7 @@ export default class Node {
     this.baseSize = this.getSizeValue(info.size);
     this.updateSize(this.baseSize);
 
-    const speed = this.getRandomIshSpeedBySize(this.info.size);
-    this.baseVel = new V2(speed, speed);
+    this.baseVel = this.getRandomVelocityBySize(this.info.size);
     this.vel = this.baseVel;
 
     const img = new Image();
@@ -37,15 +36,6 @@ export default class Node {
     });
     img.src = this.info.src;
     this.initPos();
-  }
-
-  initPos() {
-    //make sure to not spawn nodes outside bounding box
-    this.pos = new V2(
-      random(this.size, this.canvas.width - this.size),
-      random(this.size, this.canvas.height - this.size)
-    );
-    this.onResize();
   }
 
   update() {
@@ -82,29 +72,8 @@ export default class Node {
       this.vel.y *= -1;
     }
   }
-  //yep, definitely a feature
-  bounceOffRect(
-    rectX: number,
-    rectY: number,
-    rectWidth: number,
-    rectHeight: number
-  ) {
-    if (
-      this.pos.x + this.radius >= rectX &&
-      this.pos.x + this.radius <= rectX + rectWidth
-    ) {
-      this.vel.x *= -1;
-      return;
-    }
-    if (
-      this.pos.y + this.radius >= rectY &&
-      this.pos.y + this.radius <= rectY + rectHeight
-    ) {
-      this.vel.y *= -1;
-    }
-  }
 
-  updateSize(size: number) {
+  private updateSize(size: number) {
     this.size = size;
     this.radius = size / 2;
   }
@@ -112,6 +81,7 @@ export default class Node {
   onResize() {
     if (this.pos.x >= this.canvas.width || this.pos.y >= this.canvas.height) {
       this.initPos();
+      return;
     }
 
     const SMALL_SCREEN_SCALE_RATIO = 0.7;
@@ -129,6 +99,15 @@ export default class Node {
     }
   }
 
+  private initPos() {
+    //make sure to not spawn nodes outside bounding box
+    this.pos = new V2(
+      random(this.size, this.canvas.width - this.size),
+      random(this.size, this.canvas.height - this.size)
+    );
+    this.onResize();
+  }
+
   private getSizeValue(size: NodeSize) {
     const sizes: { [size in NodeSize]: number } = {
       lg: 80,
@@ -138,12 +117,17 @@ export default class Node {
     return sizes[size];
   }
 
-  private getRandomIshSpeedBySize(size: NodeSize) {
-    const sizes: { [size in NodeSize]: [number, number] } = {
+  private getRandomVelocityBySize(size: NodeSize) {
+    const speeds: { [size in NodeSize]: [number, number] } = {
       lg: [0.6, 0.8],
       md: [1.1, 1.3],
       sm: [1.8, 2],
     };
-    return random(...sizes[size]);
+    const randomSpeed = random(...speeds[size]);
+
+    return new V2(
+      random(1) ? randomSpeed : -randomSpeed,
+      random(1) ? randomSpeed : -randomSpeed
+    );
   }
 }

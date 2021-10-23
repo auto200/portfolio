@@ -1,24 +1,33 @@
-import { chakra, useTheme } from "@chakra-ui/react";
+import {
+  Box,
+  Center,
+  chakra,
+  Flex,
+  Heading,
+  Icon,
+  Link,
+  Text,
+  theme,
+  VStack,
+} from "@chakra-ui/react";
 import nodesData from "@utils/nodesData";
-import { motion } from "framer-motion";
 import { sample } from "lodash";
 import React, { useEffect, useRef } from "react";
-import { GoMarkGithub } from "react-icons/go";
-import MyPic from "./classes/MyPic";
+import { FaGithub, FaLinkedin } from "react-icons/fa";
+import { GrMail } from "react-icons/gr";
 import Node from "./classes/Node";
 
 const Canvas = chakra("canvas");
-const GithubLink = motion(chakra.a);
+
+const getRandomColor = () =>
+  sample([
+    ...Object.values(theme.colors.green),
+    ...Object.values(theme.colors.purple),
+    ...Object.values(theme.colors.pink),
+  ] as string[]);
 
 const Hero: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const theme = useTheme();
-  const getRandomColor = () =>
-    sample([
-      ...Object.values(theme.colors.green),
-      ...Object.values(theme.colors.purple),
-      ...Object.values(theme.colors.pink),
-    ] as string[]);
 
   useEffect(() => {
     const ctx = canvasRef.current.getContext("2d");
@@ -26,70 +35,52 @@ const Hero: React.FC = () => {
     canvasRef.current.width = window.innerWidth;
     canvasRef.current.height = window.innerHeight;
 
-    const myPic = new MyPic(
-      ctx,
-      canvasRef.current,
-      "/profPic.jpg",
-      200,
-      250,
-      12
-    );
-
     const nodes = nodesData.map(
       (info) => new Node(ctx, canvasRef.current, info, getRandomColor())
     );
 
-    const onResize = () => {
-      canvasRef.current.width = window.innerWidth;
-      canvasRef.current.height = window.innerHeight;
+    const nodesCenter = {
+      x: canvasRef.current.width / 2,
+      y: canvasRef.current.height / 2,
+    };
 
+    const onResize = () => {
+      const width = (canvasRef.current.width = window.innerWidth);
+      const height = (canvasRef.current.height = window.innerHeight);
+      nodesCenter.x = width / 2;
+      nodesCenter.y = height / 2;
       nodes.forEach((node) => node.onResize());
-      myPic.onResize();
     };
     window.addEventListener("resize", onResize);
 
-    const mousePos = { x: 0, y: 0 };
-    const onMouseMove = ({ clientX, clientY }: MouseEvent) => {
-      mousePos.x = clientX;
-      mousePos.y = clientY;
+    const onScroll = () => {
+      nodesCenter.y = Math.max(
+        canvasRef.current.height / 2 - window.scrollY,
+        -100
+      );
     };
-    //this is bugged, w/e this whole  thing will be gone
-    window.addEventListener("mousemove", onMouseMove);
+
+    window.addEventListener("scroll", onScroll);
 
     const updateCanvas = () => {
       const { width, height } = canvasRef.current;
       ctx.clearRect(0, 0, width, height);
 
-      //connect myPic with nodes on myPic hover
-      {
-        const isMouseOverImage = myPic.dist(mousePos.x, mousePos.y) <= 0;
-        if (isMouseOverImage) {
-          const myPicCenter = {
-            x: myPic.x + myPic.width / 2,
-            y: myPic.y + myPic.height / 2,
-          };
-          nodes.forEach((node) => {
-            ctx.beginPath();
-            ctx.moveTo(myPicCenter.x, myPicCenter.y);
-            ctx.lineTo(node.pos.x, node.pos.y);
-            ctx.lineWidth = node.size / 10;
-            ctx.strokeStyle = node.borderColor;
-            ctx.stroke();
-          });
-        }
-      }
+      //draw lines from nodes
+      nodes.forEach((node) => {
+        ctx.beginPath();
+        ctx.moveTo(nodesCenter.x, nodesCenter.y);
+        ctx.lineTo(node.pos.x, node.pos.y);
+        ctx.lineWidth = node.size / 10;
+        ctx.strokeStyle = node.borderColor;
+        ctx.stroke();
+      });
 
       nodes.forEach((node) => {
         node.update();
         node.draw();
         node.edges();
-        const isNodeCollidingWithMyPic =
-          myPic.dist(node.pos.x, node.pos.y) - node.radius <= 0;
-        if (isNodeCollidingWithMyPic) {
-          node.bounceOffRect(myPic.x, myPic.y, myPic.width, myPic.height);
-        }
       });
-      myPic.draw();
 
       requestAnimationFrame(updateCanvas);
     };
@@ -97,38 +88,68 @@ const Hero: React.FC = () => {
 
     return () => {
       window.removeEventListener("resize", onResize);
-      window.removeEventListener("mousemove", onMouseMove);
     };
   }, []);
 
-  //letter spacing works only on chrome desktop
   return (
-    <>
-      <Canvas
-        ref={canvasRef}
-        w="100%"
-        h="100vh"
-        borderBottom="1px"
-        borderColor="whiteAlpha.500"
-      >
-        canvas element not supported
-      </Canvas>
-      <GithubLink
-        target="_blank"
-        href="https://github.com/auto200"
+    <Box pos="relative" h="100vh" id="start">
+      <Center
+        flexDirection="column"
         pos="absolute"
         top="0"
         left="0"
-        m="2"
-        zIndex="10"
-        fontSize="3xl"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 2 }}
+        w="full"
+        h="full"
       >
-        <GoMarkGithub />
-      </GithubLink>
-    </>
+        <Center
+          flexDirection="column"
+          color="white"
+          maxW="600px"
+          maxH="300px"
+          rounded="md"
+          zIndex="1"
+        >
+          <Heading as="h1" fontSize="5xl">
+            Michał Warać
+          </Heading>
+          <Heading fontSize="2xl">Frontend Developer</Heading>
+          <VStack mt="2">
+            <Flex>
+              <Link
+                isExternal
+                href="https://github.com/auto200"
+                _hover={{ color: "black" }}
+              >
+                <Icon as={FaGithub} fontSize="5xl" mx="2" />
+              </Link>
+              <Link
+                isExternal
+                _hover={{ color: "blue.500" }}
+                href="https://linkedin.com/in/michalwarac"
+              >
+                <Icon as={FaLinkedin} fontSize="5xl" mx="2" />
+              </Link>
+            </Flex>
+            <Center mt="0 !important">
+              <Icon as={GrMail} fontSize="4xl" mx="2" />
+              <Text fontSize="xl">Michal.Warac@gmail.com</Text>
+            </Center>
+          </VStack>
+        </Center>
+      </Center>
+      <Canvas
+        ref={canvasRef}
+        borderBottom="1px"
+        borderColor="whiteAlpha.500"
+        w="100%"
+        h="100%"
+        filter="blur(5px) brightness(40%)"
+        position="fixed"
+        zIndex="-1"
+      >
+        canvas element not supported
+      </Canvas>
+    </Box>
   );
 };
 

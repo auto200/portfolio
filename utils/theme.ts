@@ -10,6 +10,9 @@ const theme = extendTheme({
       "#root": {
         minHeight: "100vh",
       },
+      html: {
+        scrollBehavior: "smooth",
+      },
     },
   },
 });

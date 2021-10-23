@@ -1,4 +1,4 @@
-import { Box, Center, Grid, Heading, Icon } from "@chakra-ui/react";
+import { Box, Center, Grid, Heading, Icon, Link, Text } from "@chakra-ui/react";
 import React from "react";
 import { RiToolsFill } from "react-icons/ri";
 import { Project } from "./Project";
@@ -24,6 +24,11 @@ const Projects: React.FC<ProjectsProps> = ({}) => {
           <Project key={project.name} {...project} />
         ))}
       </Grid>
+      <Center>
+        <Text as={Link} href="#start" fontSize="3xl" mt="10" mb="5">
+          Let&apos;s talk 💬
+        </Text>
+      </Center>
     </Box>
   );
 };

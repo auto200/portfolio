@@ -47,7 +47,7 @@ export const Project: React.FC<ProjectProps> = ({
           Ongoing
         </Box>
       )}
-      <Box pos="absolute" top="2" right="0">
+      <Box pos="absolute" top="2" right="0" mt="0 !important">
         {tags.map((tag) => (
           <Tag
             key={tag}
