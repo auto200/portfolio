@@ -1,4 +1,12 @@
-import { Center, Flex, Icon, Link, Text, VStack } from "@chakra-ui/react";
+import {
+  Center,
+  Flex,
+  Heading,
+  Icon,
+  Link,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
 import React from "react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { GrMail } from "react-icons/gr";
@@ -7,7 +15,8 @@ interface ContactProps {}
 
 const Contact: React.FC<ContactProps> = ({}) => {
   return (
-    <VStack mt="5">
+    <VStack mt="5" mb="10">
+      <Heading mb="8">Get in touch</Heading>
       <Flex>
         <Link
           isExternal
