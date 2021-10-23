@@ -66,8 +66,7 @@ const Hero: React.FC = () => {
       const { width, height } = canvasRef.current;
       ctx.clearRect(0, 0, width, height);
 
-      //connect nodes with center of the screen
-
+      //draw lines from nodes
       nodes.forEach((node) => {
         ctx.beginPath();
         ctx.moveTo(nodesCenter.x, nodesCenter.y);
@@ -92,7 +91,6 @@ const Hero: React.FC = () => {
     };
   }, []);
 
-  //letter spacing works only on chrome desktop
   return (
     <Box pos="relative" h="100vh" id="start">
       <Center
