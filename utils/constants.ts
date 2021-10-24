@@ -1,0 +1,2 @@
+export const INITIAL_ANIMATION_DELAY = 2;
+export const INITIAL_ANIMATION_DURATION = 3;

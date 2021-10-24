@@ -3,17 +3,18 @@ import V2 from "@utils/V2";
 import { random } from "lodash";
 
 export default class Node {
-  ctx: CanvasRenderingContext2D;
-  canvas: HTMLCanvasElement;
+  private ctx: CanvasRenderingContext2D;
+  private canvas: HTMLCanvasElement;
   info: NodeData;
   borderColor: string;
   pos: V2;
   private baseSize: number;
   size: number;
   private baseVel: V2;
-  vel: V2;
+  private vel: V2;
   image: HTMLImageElement;
   radius: number;
+
   constructor(
     ctx: CanvasRenderingContext2D,
     canvas: HTMLCanvasElement,

@@ -8,13 +8,30 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
+import {
+  INITIAL_ANIMATION_DELAY,
+  INITIAL_ANIMATION_DURATION,
+} from "@utils/constants";
+import { motion } from "framer-motion";
 import React from "react";
 import { FaGithubSquare, FaLinkedin } from "react-icons/fa";
 import { GrMail } from "react-icons/gr";
 
+const Wrapper = motion(Box);
+
 const Hero: React.FC = () => {
   return (
-    <Box pos="relative" h="100vh" id="start">
+    <Wrapper
+      pos="relative"
+      h="100vh"
+      id="start"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{
+        delay: INITIAL_ANIMATION_DELAY,
+        duration: INITIAL_ANIMATION_DURATION,
+      }}
+    >
       <Center
         flexDirection="column"
         pos="absolute"
@@ -59,7 +76,7 @@ const Hero: React.FC = () => {
           </VStack>
         </Center>
       </Center>
-    </Box>
+    </Wrapper>
   );
 };
 
