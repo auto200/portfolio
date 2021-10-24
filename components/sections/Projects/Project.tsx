@@ -29,6 +29,8 @@ export const Project: React.FC<ProjectProps> = ({
       p="8"
       rounded="md"
       overflow="hidden"
+      bg="gray.800"
+      opacity="0.9"
       border="2px"
       borderColor="whiteAlpha.500"
     >
