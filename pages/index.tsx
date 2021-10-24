@@ -19,7 +19,7 @@ const Home = () => {
   }, []);
 
   return (
-    <RemoveScroll enabled={scrollbarEnabled}>
+    <RemoveScroll enabled={scrollbarEnabled} removeScrollBar={false}>
       <Background />
       <Hero />
       <VStack>

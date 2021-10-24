@@ -1,4 +1,4 @@
-import { extendTheme } from "@chakra-ui/react";
+import { extendTheme, theme as chTheme } from "@chakra-ui/react";
 
 const theme = extendTheme({
   config: {
@@ -12,6 +12,20 @@ const theme = extendTheme({
       },
       html: {
         scrollBehavior: "smooth",
+      },
+      "::-webkit-scrollbar": {
+        width: "10px",
+      },
+      "::-webkit-scrollbar-track": {
+        background: chTheme.colors.gray["900"],
+      },
+      "::-webkit-scrollbar-thumb": {
+        background: chTheme.colors.gray["700"],
+        borderRadius: "5px",
+      },
+      "::-webkit-scrollbar-thumb:hover": {
+        background: chTheme.colors.gray["600"],
+        borderRadius: "5px",
       },
     },
   },
