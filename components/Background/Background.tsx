@@ -23,6 +23,7 @@ const getRandomColor = () =>
 const Background: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const drawBackgroundLinesRef = useRef(false);
+  const lineProgress = useRef(0.0001);
 
   useEffect(() => {
     const ctx = canvasRef.current.getContext("2d");
@@ -56,27 +57,15 @@ const Background: React.FC = () => {
     };
     window.addEventListener("scroll", onScroll);
 
-    const FPS = 1000 / 60;
-    let lineProgress = 0.0001;
-    let lineProgressInterval = 0;
-
     const updateCanvas = () => {
       const { width, height } = canvasRef.current;
       ctx.clearRect(0, 0, width, height);
 
       nodes.forEach((node) => {
         if (drawBackgroundLinesRef.current) {
-          if (!lineProgressInterval) {
-            lineProgressInterval = window.setInterval(() => {
-              lineProgress += 0.01;
-              if (lineProgress >= 1) {
-                window.clearInterval(lineProgressInterval);
-              }
-            }, FPS);
-          }
           const lineTarget = new V2(
-            nodesHub.x - (nodesHub.x - node.pos.x) * lineProgress,
-            nodesHub.y - (nodesHub.y - node.pos.y) * lineProgress
+            nodesHub.x - (nodesHub.x - node.pos.x) * lineProgress.current,
+            nodesHub.y - (nodesHub.y - node.pos.y) * lineProgress.current
           );
           drawLine(ctx, nodesHub, lineTarget, node.size / 10, node.borderColor);
         }
@@ -94,6 +83,25 @@ const Background: React.FC = () => {
       window.removeEventListener("scroll", onScroll);
     };
   }, []);
+
+  //animations
+  useEffect(() => {
+    const FPS = 1000 / 60;
+    let lineProgressInterval = 0;
+    const lineProgressStep = 0.008;
+
+    setTimeout(() => {
+      drawBackgroundLinesRef.current = true;
+      lineProgressInterval = window.setInterval(() => {
+        lineProgress.current += lineProgressStep;
+        if (lineProgress.current >= 1) {
+          window.clearInterval(lineProgressInterval);
+        }
+      }, FPS);
+      //add 1 to give extra time for background and hero to blend in
+    }, (INITIAL_ANIMATION_DELAY + 1) * 1000);
+  }, []);
+
   return (
     <Canvas
       ref={canvasRef}
@@ -105,9 +113,6 @@ const Background: React.FC = () => {
       transition={{
         delay: INITIAL_ANIMATION_DELAY,
         duration: INITIAL_ANIMATION_DURATION,
-      }}
-      onAnimationComplete={() => {
-        drawBackgroundLinesRef.current = true;
       }}
     >
       canvas element not supported
