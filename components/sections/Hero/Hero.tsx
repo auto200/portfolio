@@ -16,6 +16,7 @@ import { motion } from "framer-motion";
 import React from "react";
 import { FaGithubSquare, FaLinkedin } from "react-icons/fa";
 import { GrMail } from "react-icons/gr";
+import { HiOutlineChevronDoubleDown } from "react-icons/hi";
 
 const Wrapper = motion(Box);
 
@@ -69,9 +70,20 @@ const Hero: React.FC = () => {
                 <Icon as={FaLinkedin} fontSize="5xl" mx="2" />
               </Link>
             </Flex>
-            <Center mt="0 !important">
+            <Center mt="0 !important" position="relative">
               <Icon as={GrMail} fontSize="4xl" mx="2" />
               <Text fontSize="xl">Michal.Warac@gmail.com</Text>
+              <motion.div
+                initial={{ position: "absolute", top: 50 }}
+                animate={{ y: 25, opacity: [0, 1, 0] }}
+                transition={{
+                  duration: 1.5,
+                  repeatDelay: 4,
+                  repeat: Infinity,
+                }}
+              >
+                <Icon as={HiOutlineChevronDoubleDown} fontSize="4xl" />
+              </motion.div>
             </Center>
           </VStack>
         </Center>
