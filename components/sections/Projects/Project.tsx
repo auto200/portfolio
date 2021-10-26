@@ -63,7 +63,9 @@ export const Project: React.FC<ProjectProps> = ({
       </Box>
       <Heading>{name}</Heading>
       <Image src={imageSrc} alt={name} h="250px" objectFit="cover" />
-      <Text textAlign="center">{description}</Text>
+      <Text textAlign="center" fontSize="large">
+        {description}
+      </Text>
       <Box>
         <Button
           as={Link}
