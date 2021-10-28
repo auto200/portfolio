@@ -1,4 +1,4 @@
-import { chakra } from "@chakra-ui/system";
+import { chakra, keyframes } from "@chakra-ui/react";
 import { drawLine } from "@utils/canvasUtils";
 import {
   INITIAL_ANIMATION_DELAY,
@@ -7,12 +7,15 @@ import {
 import nodesData from "@utils/nodesData";
 import theme from "@utils/theme";
 import V2 from "@utils/V2";
-import { motion } from "framer-motion";
 import { sample } from "lodash";
 import React, { useEffect, useRef } from "react";
 import Node from "./classes/Node";
 
-const Canvas = motion(chakra("canvas"));
+const Canvas = chakra("canvas");
+const canvasBlurAnimation = keyframes`
+to{
+  filter: blur(5px) brightness(40%);
+}`;
 const getRandomColor = () =>
   sample([
     ...Object.values(theme.colors.green),
@@ -109,11 +112,7 @@ const Background: React.FC = () => {
       h="100%"
       position="fixed"
       zIndex="-1"
-      animate={{ filter: "blur(5px) brightness(40%)" }}
-      transition={{
-        delay: INITIAL_ANIMATION_DELAY,
-        duration: INITIAL_ANIMATION_DURATION,
-      }}
+      animation={`${canvasBlurAnimation} forwards ${INITIAL_ANIMATION_DURATION}s linear ${INITIAL_ANIMATION_DELAY}s`}
     >
       canvas element not supported
     </Canvas>
