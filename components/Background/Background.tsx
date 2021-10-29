@@ -1,21 +1,20 @@
-import { chakra, keyframes } from "@chakra-ui/react";
+import { Box, chakra } from "@chakra-ui/react";
 import { drawLine } from "@utils/canvasUtils";
 import {
+  CONNETCT_HUB_WITH_NODES_DELAY,
   INITIAL_ANIMATION_DELAY,
   INITIAL_ANIMATION_DURATION,
 } from "@utils/constants";
 import nodesData from "@utils/nodesData";
 import theme from "@utils/theme";
 import V2 from "@utils/V2";
+import { motion } from "framer-motion";
 import { sample } from "lodash";
 import React, { useEffect, useRef } from "react";
 import Node from "./classes/Node";
 
 const Canvas = chakra("canvas");
-const canvasBlurAnimation = keyframes`
-to{
-  filter: blur(5px) brightness(40%);
-}`;
+const BrightnessFilter = motion(Box);
 const getRandomColor = () =>
   sample([
     ...Object.values(theme.colors.green),
@@ -25,7 +24,7 @@ const getRandomColor = () =>
 
 const Background: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const drawBackgroundLinesRef = useRef(false);
+  const drawHubToNodeLinesRef = useRef(false);
   const lineProgress = useRef(0.0001);
 
   useEffect(() => {
@@ -65,11 +64,15 @@ const Background: React.FC = () => {
       ctx.clearRect(0, 0, width, height);
 
       nodes.forEach((node) => {
-        if (drawBackgroundLinesRef.current) {
-          const lineTarget = new V2(
-            nodesHub.x - (nodesHub.x - node.pos.x) * lineProgress.current,
-            nodesHub.y - (nodesHub.y - node.pos.y) * lineProgress.current
-          );
+        if (drawHubToNodeLinesRef.current) {
+          // do not recalculate line target when the progress is complete
+          const lineTarget =
+            lineProgress.current >= 1
+              ? node.pos
+              : new V2(
+                  nodesHub.x - (nodesHub.x - node.pos.x) * lineProgress.current,
+                  nodesHub.y - (nodesHub.y - node.pos.y) * lineProgress.current
+                );
           drawLine(ctx, nodesHub, lineTarget, node.size / 10, node.borderColor);
         }
         node.update();
@@ -94,28 +97,36 @@ const Background: React.FC = () => {
     const lineProgressStep = 0.008;
 
     setTimeout(() => {
-      drawBackgroundLinesRef.current = true;
+      drawHubToNodeLinesRef.current = true;
       lineProgressInterval = window.setInterval(() => {
         lineProgress.current += lineProgressStep;
         if (lineProgress.current >= 1) {
           window.clearInterval(lineProgressInterval);
         }
       }, FPS);
-      //add 1 to give extra time for background and hero to blend in
-    }, (INITIAL_ANIMATION_DELAY + 1) * 1000);
+    }, CONNETCT_HUB_WITH_NODES_DELAY * 1000);
   }, []);
 
   return (
-    <Canvas
-      ref={canvasRef}
-      w="100%"
-      h="100%"
-      position="fixed"
-      zIndex="-1"
-      animation={`${canvasBlurAnimation} forwards ${INITIAL_ANIMATION_DURATION}s linear ${INITIAL_ANIMATION_DELAY}s`}
-    >
-      canvas element not supported
-    </Canvas>
+    <Box position="fixed" zIndex="-1" h="100vh">
+      <Canvas ref={canvasRef} w="full">
+        canvas element not supported
+      </Canvas>
+      <BrightnessFilter
+        pos="absolute"
+        top="0"
+        left="0"
+        w="full"
+        h="full"
+        bgColor="black"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 0.6 }}
+        transition={{
+          delay: INITIAL_ANIMATION_DELAY,
+          duration: INITIAL_ANIMATION_DURATION,
+        }}
+      />
+    </Box>
   );
 };
 export default Background;

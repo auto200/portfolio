@@ -30,7 +30,7 @@ export const Project: React.FC<ProjectProps> = ({
       rounded="md"
       overflow="hidden"
       bg="gray.800"
-      opacity="0.9"
+      opacity="0.95"
       border="2px"
       borderColor="whiteAlpha.500"
     >

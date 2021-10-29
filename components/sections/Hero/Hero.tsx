@@ -46,8 +46,8 @@ const Hero: React.FC = () => {
       pos="relative"
       h="100vh"
       id="start"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
+      initial={{ opacity: 0, pointerEvents: "none" }}
+      animate={{ opacity: 1, pointerEvents: "auto" }}
       transition={{
         delay: INITIAL_ANIMATION_DELAY,
         duration: INITIAL_ANIMATION_DURATION,
