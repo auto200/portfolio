@@ -5,13 +5,13 @@ import {
   BACKGROUND_FADE_DURATION,
   CONNETCT_HUB_WITH_NODES_DELAY,
 } from "@utils/animationTimings";
-import nodesData from "@utils/nodesData";
 import theme from "@utils/theme";
 import V2 from "@utils/V2";
 import { motion } from "framer-motion";
 import { sample } from "lodash";
 import React, { useEffect, useRef } from "react";
 import Node from "./classes/Node";
+import nodesData from "./nodesData";
 
 const Canvas = chakra("canvas");
 const BrightnessFilter = motion(Box);
