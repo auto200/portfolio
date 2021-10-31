@@ -1,4 +1,4 @@
-import V2 from "./V2";
+import V2 from "utils/V2";
 
 export const drawLine = (
   ctx: CanvasRenderingContext2D,

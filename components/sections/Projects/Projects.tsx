@@ -1,7 +1,7 @@
 import { Box, Center, Grid, Heading, Icon, Link, Text } from "@chakra-ui/react";
 import React from "react";
 import { RiToolsFill } from "react-icons/ri";
-import { Project } from "./Project";
+import Project from "./components/Project";
 import { projectsData } from "./projectsData";
 
 interface ProjectsProps {}

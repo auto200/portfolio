@@ -1,10 +1,10 @@
 import { Box, chakra } from "@chakra-ui/react";
-import { drawLine } from "@utils/canvasUtils";
+import { drawLine } from "@components/Background/canvasUtils";
 import {
+  BACKGROUND_FADE_DELAY,
+  BACKGROUND_FADE_DURATION,
   CONNETCT_HUB_WITH_NODES_DELAY,
-  INITIAL_ANIMATION_DELAY,
-  INITIAL_ANIMATION_DURATION,
-} from "@utils/constants";
+} from "@utils/animationTimings";
 import nodesData from "@utils/nodesData";
 import theme from "@utils/theme";
 import V2 from "@utils/V2";
@@ -25,7 +25,7 @@ const getRandomColor = () =>
 const Background: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const drawHubToNodeLinesRef = useRef(false);
-  const lineProgress = useRef(0.0001);
+  const lineProgress = useRef(0);
 
   useEffect(() => {
     const ctx = canvasRef.current.getContext("2d");
@@ -65,6 +65,7 @@ const Background: React.FC = () => {
 
       nodes.forEach((node) => {
         if (drawHubToNodeLinesRef.current) {
+          const lineWidth = node.size / 10;
           // do not recalculate line target when the progress is complete
           const lineTarget =
             lineProgress.current >= 1
@@ -73,7 +74,7 @@ const Background: React.FC = () => {
                   nodesHub.x - (nodesHub.x - node.pos.x) * lineProgress.current,
                   nodesHub.y - (nodesHub.y - node.pos.y) * lineProgress.current
                 );
-          drawLine(ctx, nodesHub, lineTarget, node.size / 10, node.borderColor);
+          drawLine(ctx, nodesHub, lineTarget, lineWidth, node.borderColor);
         }
         node.update();
         node.draw();
@@ -120,10 +121,10 @@ const Background: React.FC = () => {
         h="full"
         bgColor="black"
         initial={{ opacity: 0 }}
-        animate={{ opacity: 0.6 }}
+        animate={{ opacity: 0.8 }}
         transition={{
-          delay: INITIAL_ANIMATION_DELAY,
-          duration: INITIAL_ANIMATION_DURATION,
+          delay: BACKGROUND_FADE_DELAY,
+          duration: BACKGROUND_FADE_DURATION,
         }}
       />
     </Box>

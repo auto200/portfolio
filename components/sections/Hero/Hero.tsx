@@ -10,10 +10,7 @@ import {
   useToast,
   VStack,
 } from "@chakra-ui/react";
-import {
-  INITIAL_ANIMATION_DELAY,
-  INITIAL_ANIMATION_DURATION,
-} from "@utils/constants";
+import { HERO_FADE_DELAY, HERO_FADE_DURATION } from "@utils/animationTimings";
 import { motion } from "framer-motion";
 import React, { useEffect } from "react";
 import { FaGithubSquare, FaLinkedin } from "react-icons/fa";
@@ -49,8 +46,8 @@ const Hero: React.FC = () => {
       initial={{ opacity: 0, pointerEvents: "none" }}
       animate={{ opacity: 1, pointerEvents: "auto" }}
       transition={{
-        delay: INITIAL_ANIMATION_DELAY,
-        duration: INITIAL_ANIMATION_DURATION,
+        delay: HERO_FADE_DELAY,
+        duration: HERO_FADE_DURATION,
       }}
     >
       <Center
@@ -64,7 +61,7 @@ const Hero: React.FC = () => {
         <Center
           flexDirection="column"
           textAlign="center"
-          color="white"
+          color="whiteAlpha.900"
           zIndex="1"
         >
           <Heading as="h1" fontSize={["5xl", "6xl", "8xl"]}>
@@ -98,6 +95,7 @@ const Hero: React.FC = () => {
                 fontSize={["4xl", "5xl", "6xl"]}
                 mx="2"
                 cursor="pointer"
+                _hover={{ color: "blue.500" }}
                 onClick={onCopy}
               />
               <Text fontSize={["xl", "2xl", "3xl"]}>{EMAIL}</Text>
@@ -106,7 +104,7 @@ const Hero: React.FC = () => {
                 animate={{ y: 25, opacity: [0, 1, 0] }}
                 transition={{
                   duration: 1.5,
-                  repeatDelay: 4,
+                  repeatDelay: 3.5,
                   repeat: Infinity,
                 }}
               >

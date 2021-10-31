@@ -10,11 +10,11 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import { BsGithub, BsGlobe } from "react-icons/bs";
-import { IProject } from "./projectsData";
+import { IProject } from "../../projectsData";
 
 interface ProjectProps extends IProject {}
 
-export const Project: React.FC<ProjectProps> = ({
+const Project: React.FC<ProjectProps> = ({
   tags,
   name,
   imageSrc,
@@ -82,7 +82,7 @@ export const Project: React.FC<ProjectProps> = ({
             as={Link}
             isExternal
             href={links.live}
-            w="100px"
+            w="110px"
             leftIcon={<BsGlobe />}
           >
             Live
@@ -92,3 +92,5 @@ export const Project: React.FC<ProjectProps> = ({
     </VStack>
   );
 };
+
+export default Project;

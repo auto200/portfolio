@@ -120,9 +120,9 @@ export default class Node {
 
   private getRandomVelocityBySize(size: NodeSize) {
     const speeds: { [size in NodeSize]: [number, number] } = {
-      lg: [0.6, 0.8],
-      md: [1.1, 1.3],
-      sm: [1.8, 2],
+      lg: [0.3, 0.4],
+      md: [0.55, 0.65],
+      sm: [0.9, 1],
     };
     const randomSpeed = random(...speeds[size]);
 
