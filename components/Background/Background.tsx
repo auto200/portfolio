@@ -3,12 +3,12 @@ import { drawLine } from "@components/Background/canvasUtils";
 import {
   BACKGROUND_FADE_DELAY,
   BACKGROUND_FADE_DURATION,
-  CONNETCT_HUB_WITH_NODES_DELAY,
+  CONNECT_HUB_WITH_NODES_DELAY,
 } from "@utils/animationTimings";
 import theme from "@utils/theme";
 import V2 from "@utils/V2";
 import { motion } from "framer-motion";
-import { sample } from "lodash";
+import sample from "lodash/sample";
 import React, { useEffect, useRef } from "react";
 import Node from "./classes/Node";
 import nodesData from "./nodesData";
@@ -24,7 +24,6 @@ const getRandomColor = () =>
 
 const Background: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const drawHubToNodeLinesRef = useRef(false);
   const lineProgress = useRef(0);
 
   useEffect(() => {
@@ -64,18 +63,15 @@ const Background: React.FC = () => {
       ctx.clearRect(0, 0, width, height);
 
       nodes.forEach((node) => {
-        if (drawHubToNodeLinesRef.current) {
-          const lineWidth = node.size / 10;
-          // do not recalculate line target when the progress is complete
-          const lineTarget =
-            lineProgress.current >= 1
-              ? node.pos
-              : new V2(
-                  nodesHub.x - (nodesHub.x - node.pos.x) * lineProgress.current,
-                  nodesHub.y - (nodesHub.y - node.pos.y) * lineProgress.current
-                );
-          drawLine(ctx, nodesHub, lineTarget, lineWidth, node.borderColor);
-        }
+        const lineWidth = node.size / 10;
+        const lineTarget =
+          lineProgress.current >= 1
+            ? node.pos
+            : new V2(
+                nodesHub.x - (nodesHub.x - node.pos.x) * lineProgress.current,
+                nodesHub.y - (nodesHub.y - node.pos.y) * lineProgress.current
+              );
+        drawLine(ctx, nodesHub, lineTarget, lineWidth, node.borderColor);
         node.update();
         node.draw();
         node.edges();
@@ -91,21 +87,19 @@ const Background: React.FC = () => {
     };
   }, []);
 
-  //animations
+  //hub to node lines animation
   useEffect(() => {
-    const FPS = 1000 / 60;
-    let lineProgressInterval = 0;
-    const lineProgressStep = 0.008;
+    const LINE_PROGRESS_STEP = 0.008;
 
     setTimeout(() => {
-      drawHubToNodeLinesRef.current = true;
-      lineProgressInterval = window.setInterval(() => {
-        lineProgress.current += lineProgressStep;
-        if (lineProgress.current >= 1) {
-          window.clearInterval(lineProgressInterval);
-        }
-      }, FPS);
-    }, CONNETCT_HUB_WITH_NODES_DELAY * 1000);
+      const incrementLineProgress = () => {
+        lineProgress.current += LINE_PROGRESS_STEP;
+        if (lineProgress.current < 1)
+          window.requestAnimationFrame(incrementLineProgress);
+      };
+
+      incrementLineProgress();
+    }, CONNECT_HUB_WITH_NODES_DELAY * 1000);
   }, []);
 
   return (

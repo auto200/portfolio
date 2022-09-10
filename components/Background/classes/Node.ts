@@ -1,5 +1,5 @@
 import V2 from "@utils/V2";
-import { random } from "lodash";
+import random from "lodash/random";
 import { NodeData, NodeSize } from "../nodesData";
 
 export default class Node {

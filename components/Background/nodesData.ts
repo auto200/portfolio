@@ -116,6 +116,12 @@ const nodesData: NodeData[] = [
     size: "md",
     links: [],
   },
+  {
+    id: "Vue",
+    src: "/nodes/vue.png",
+    size: "md",
+    links: [],
+  },
 ];
 
 export default nodesData;

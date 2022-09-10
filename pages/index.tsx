@@ -1,18 +1,16 @@
-import { Box, VStack } from "@chakra-ui/react";
 import Background from "@components/Background";
 import Hero from "@components/sections/Hero";
-import Projects from "@components/sections/Projects";
 
 const Home = () => {
   return (
     <>
       <Background />
       <Hero />
-      <VStack>
+      {/* <VStack>
         <Box w="100%" maxW="900px">
           <Projects />
         </Box>
-      </VStack>
+      </VStack> */}
     </>
   );
 };

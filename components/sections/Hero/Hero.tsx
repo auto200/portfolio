@@ -5,7 +5,6 @@ import {
   Heading,
   Icon,
   Link,
-  Text,
   useClipboard,
   useToast,
   VStack,
@@ -13,9 +12,8 @@ import {
 import { HERO_FADE_DELAY, HERO_FADE_DURATION } from "@utils/animationTimings";
 import { motion } from "framer-motion";
 import React, { useEffect } from "react";
-import { FaGithubSquare, FaLinkedin } from "react-icons/fa";
+import { FaGithubSquare } from "react-icons/fa";
 import { GrMail } from "react-icons/gr";
-import { HiOutlineChevronDoubleDown } from "react-icons/hi";
 
 const Wrapper = motion(Box);
 
@@ -81,15 +79,6 @@ const Hero: React.FC = () => {
                   mx="2"
                 />
               </Link>
-              <Link
-                isExternal
-                _hover={{ color: "blue.500" }}
-                href="https://linkedin.com/in/michalwarac"
-              >
-                <Icon as={FaLinkedin} fontSize={["5xl", null, "6xl"]} mx="2" />
-              </Link>
-            </Flex>
-            <Center mt="0 !important" position="relative">
               <Icon
                 as={GrMail}
                 fontSize={["4xl", "5xl", "6xl"]}
@@ -98,7 +87,8 @@ const Hero: React.FC = () => {
                 _hover={{ color: "blue.500" }}
                 onClick={onCopy}
               />
-              <Text fontSize={["xl", "2xl", "3xl"]}>{EMAIL}</Text>
+            </Flex>
+            {/* <Center mt="0 !important" position="relative">
               <motion.div
                 initial={{ position: "absolute", top: 100 }}
                 animate={{ y: 25, opacity: [0, 1, 0] }}
@@ -110,7 +100,7 @@ const Hero: React.FC = () => {
               >
                 <Icon as={HiOutlineChevronDoubleDown} fontSize="4xl" />
               </motion.div>
-            </Center>
+            </Center> */}
           </VStack>
         </Center>
       </Center>
